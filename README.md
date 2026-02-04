@@ -61,3 +61,9 @@ description: When Claude should auto-invoke this skill
 
 Instructions for the skill.
 ```
+
+## Support
+
+- **Docs**: https://docs.freeplay.ai
+- **Issues**: https://github.com/freeplayai/freeplay-skills/issues
+- **Security**: security@freeplay.ai
