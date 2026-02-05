@@ -33,14 +33,15 @@ Prompt Dataset Creation:
 import requests
 import os
 import json
+from scripts.secrets import SecretString
 
 # Step 1: Setup
-freeplay_api_key = os.environ["FREEPLAY_API_KEY"]
+api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
 freeplay_api_base = os.environ["FREEPLAY_API_BASE"]
 project_id = os.environ["FREEPLAY_PROJECT_ID"]
 
 headers = {
-    "Authorization": f"Bearer {freeplay_api_key}",
+    "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
 base = f"{freeplay_api_base}/api/v2/projects/{project_id}"
@@ -216,9 +217,11 @@ with open('test_cases.csv', 'r') as f:
 ```python
 import requests
 import os
+from scripts.secrets import SecretString
 
+api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
 headers = {
-    "Authorization": f"Bearer {os.environ['FREEPLAY_API_KEY']}",
+    "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
 base = f"{os.environ['FREEPLAY_API_BASE']}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
@@ -299,10 +302,12 @@ Agent Dataset with History:
 ```python
 import requests
 import os
+from scripts.secrets import SecretString
 
 # Setup (same as previous examples)
+api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
 headers = {
-    "Authorization": f"Bearer {os.environ['FREEPLAY_API_KEY']}",
+    "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
 base = f"{os.environ['FREEPLAY_API_BASE']}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
@@ -411,10 +416,12 @@ Batch Update Workflow:
 ```python
 import requests
 import os
+from scripts.secrets import SecretString
 
 # Setup
+api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
 headers = {
-    "Authorization": f"Bearer {os.environ['FREEPLAY_API_KEY']}",
+    "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
 base = f"{os.environ['FREEPLAY_API_BASE']}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"

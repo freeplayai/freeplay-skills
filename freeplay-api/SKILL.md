@@ -9,16 +9,18 @@ You can use the Freeplay API like this:
 
 ```python
 import requests
+import os
+from scripts.secrets import SecretString
 
-freeplay_api_key = os.environ["FREEPLAY_API_KEY"]
+api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
 freeplay_api_base = os.environ["FREEPLAY_API_BASE"]
 
 # Many but not all operations require a project_id
 project_id = os.environ["FREEPLAY_PROJECT_ID"]
 
-def freplay_request(method, endpoint, data):
+def freeplay_request(method, endpoint, data):
     headers = {
-        "Authorization": f"Bearer {freeplay_api_key}",
+        "Authorization": f"Bearer {api_key.get()}",
         "Content-Type": "application/json"
     }
     response = requests.request(method, endpoint, headers=headers, json=data)

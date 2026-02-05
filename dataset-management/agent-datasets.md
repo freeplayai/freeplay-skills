@@ -20,9 +20,11 @@ All operations assume this setup (shown in SKILL.md):
 ```python
 import requests
 import os
+from scripts.secrets import SecretString
 
+api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
 headers = {
-    "Authorization": f"Bearer {os.environ['FREEPLAY_API_KEY']}",
+    "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
 base = f"{os.environ['FREEPLAY_API_BASE']}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
