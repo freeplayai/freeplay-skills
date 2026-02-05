@@ -114,65 +114,12 @@ def batch_create_test_cases(
     return total_uploaded
 
 
-def batch_delete_test_cases(
-    test_case_ids: List[str],
-    dataset_type: str,
-    dataset_id: str,
-    batch_size: int = 100,
-    verbose: bool = True
-) -> int:
-    """Delete test cases in batches.
-
-    Args:
-        test_case_ids: List of test case IDs to delete
-        dataset_type: "prompt-datasets" or "agent-datasets"
-        dataset_id: The dataset ID
-        batch_size: Number of items per batch (max 100)
-        verbose: Whether to print progress
-
-    Returns:
-        Number of successfully deleted test cases
-    """
-    config = get_freeplay_config()
-    headers = get_headers(config["api_key"])
-
-    total_deleted = 0
-    total_batches = (len(test_case_ids) + batch_size - 1) // batch_size
-
-    for i in range(0, len(test_case_ids), batch_size):
-        batch = test_case_ids[i:i + batch_size]
-        batch_num = i // batch_size + 1
-
-        url = f"{config['api_base']}/api/v2/projects/{config['project_id']}/{dataset_type}/{dataset_id}/test-cases/bulk"
-
-        try:
-            response = requests.delete(
-                url,
-                headers=headers,
-                json={"test_case_ids": batch},
-                timeout=30
-            )
-
-            if response.status_code == 200:
-                total_deleted += len(batch)
-                if verbose:
-                    print(f"✓ Batch {batch_num}/{total_batches}: Deleted {len(batch)} test cases")
-            else:
-                if verbose:
-                    print(f"✗ Batch {batch_num}/{total_batches} failed: {response.status_code}", file=sys.stderr)
-                    print(f"  Response: {safe_error_message(response.text)}", file=sys.stderr)
-
-        except requests.RequestException as e:
-            if verbose:
-                print(f"✗ Batch {batch_num}/{total_batches} failed: {e}", file=sys.stderr)
-
-    return total_deleted
-
-
 if __name__ == "__main__":
     print("This module provides utility functions for batch operations.")
     print("Import and use the functions in your scripts:")
     print()
-    print("  from batch_operations import batch_create_test_cases, batch_delete_test_cases")
+    print("  from batch_operations import batch_create_test_cases")
     print()
     print("Or use import_testcases.py for CSV/JSONL imports.")
+    print()
+    print("Note: Deletion operations are not supported through this skill.")

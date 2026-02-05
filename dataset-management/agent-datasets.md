@@ -9,9 +9,13 @@ Complete reference for managing agent-level datasets in Freeplay.
 - [Retrieving Test Cases](#retrieving-test-cases)
 - [Updating Test Cases](#updating-test-cases)
 - [Updating Dataset Metadata](#updating-dataset-metadata)
-- [Deleting Test Cases](#deleting-test-cases)
-- [Deleting Datasets](#deleting-datasets)
 - [Test Case Structure](#test-case-structure)
+
+## Important Safety Note
+
+**No Deletion Operations:** This skill does NOT support deletion operations (deleting datasets or test cases). If deletion is needed, it must be performed manually through the Freeplay UI or API directly.
+
+**Confirmation Required:** Always ask for user confirmation before performing any write operations (creating datasets, adding test cases, updating datasets or test cases).
 
 ## Setup
 
@@ -233,60 +237,6 @@ else:
 ```
 
 **Response:** `200 OK` with updated dataset object
-
-## Deleting Test Cases
-
-**Endpoint:** `DELETE /api/v2/projects/{project_id}/agent-datasets/{dataset_id}/test-cases/bulk`
-
-**Request body:**
-```json
-{
-  "test_case_ids": ["tc_123", "tc_456", ...]
-}
-```
-
-**Example:**
-
-```python
-test_case_ids = ["tc_123", "tc_456", "tc_789"]
-
-response = requests.delete(
-    f"{base}/agent-datasets/{dataset_id}/test-cases/bulk",
-    headers=headers,
-    json={"test_case_ids": test_case_ids}
-)
-
-if response.status_code == 200:
-    print(f"Deleted {len(test_case_ids)} test cases")
-else:
-    print(f"Error: {response.status_code} - {response.text}")
-```
-
-**Limits:** Maximum 100 test case IDs per request
-
-**Response:** `200 OK` on success
-
-## Deleting Datasets
-
-**Endpoint:** `DELETE /api/v2/projects/{project_id}/agent-datasets/{dataset_id}`
-
-**Warning:** This deletes the dataset and all its test cases.
-
-**Example:**
-
-```python
-response = requests.delete(
-    f"{base}/agent-datasets/{dataset_id}",
-    headers=headers
-)
-
-if response.status_code == 200:
-    print("Dataset deleted successfully")
-else:
-    print(f"Error: {response.status_code} - {response.text}")
-```
-
-**Response:** `200 OK` on success
 
 ## Test Case Structure
 

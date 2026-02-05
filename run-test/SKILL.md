@@ -5,6 +5,12 @@ description: Execute Freeplay test runs to evaluate AI features. Use when the us
 
 # Run Freeplay Test
 
+## IMPORTANT: Confirmation Required
+
+**Always ask for user confirmation before executing any test run.** Test runs make API calls to Freeplay and LLM providers, which may incur costs. Never execute a test without explicit user consent.
+
+---
+
 This skill helps users execute Freeplay test runs via the SDK/API to evaluate their AI features against datasets.
 
 **Note:** This skill is for SDK/API-based test runs only, not UI-based testing from the Freeplay dashboard.

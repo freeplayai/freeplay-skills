@@ -70,22 +70,12 @@ Reusable functions for batch operations in custom scripts.
 Import functions in your Python scripts:
 
 ```python
-from batch_operations import batch_create_test_cases, batch_delete_test_cases
+from batch_operations import batch_create_test_cases
 
 # Create test cases in batches
 test_cases = [...]
 count = batch_create_test_cases(
     test_cases=test_cases,
-    dataset_type="prompt-datasets",
-    dataset_id="ds_abc123",
-    batch_size=100,
-    verbose=True
-)
-
-# Delete test cases in batches
-ids = ["tc_1", "tc_2", ...]
-count = batch_delete_test_cases(
-    test_case_ids=ids,
     dataset_type="prompt-datasets",
     dataset_id="ds_abc123",
     batch_size=100,
@@ -103,13 +93,13 @@ count = batch_delete_test_cases(
 - Uploads test cases in batches
 - Returns count of successfully created test cases
 
-**`batch_delete_test_cases(test_case_ids, dataset_type, dataset_id, batch_size=100, verbose=True)`**
-- Deletes test cases in batches
-- Returns count of successfully deleted test cases
-
 ### Environment Variables
 
 Same as `import_testcases.py`:
 - `FREEPLAY_API_KEY`
 - `FREEPLAY_API_BASE`
 - `FREEPLAY_PROJECT_ID`
+
+### Note
+
+Deletion operations are not supported through this skill. If you need to delete test cases or datasets, do so manually through the Freeplay UI or API directly.
