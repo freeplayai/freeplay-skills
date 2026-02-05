@@ -53,6 +53,14 @@ These skills can also be used with [Cursor](https://cursor.com) through its [Age
 
 Skills are separate from [Cursor Rules](https://cursor.com/docs/context/rules) (stored in `.cursor/rules/`) which provide persistent behavioral guidelines. Skills and rules work together - rules define how the AI should behave, while skills provide specialized capabilities that are auto-invoked when relevant.
 
+## Shared Scripts
+
+The `scripts/` directory contains shared utilities used across multiple skills:
+
+- **`secrets.py`** - Secure handling of API keys with `SecretString` wrapper
+
+Skills should symlink to these shared modules rather than duplicating code. See [`scripts/README.md`](scripts/README.md) for details.
+
 ## Adding a New Skill
 
 Create a directory with a `SKILL.md` file:
