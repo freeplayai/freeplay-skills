@@ -63,7 +63,7 @@ Use curl or Python to call the API:
 
 ```bash
 curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_API_URL/api/v2/projects/$FREEPLAY_PROJECT_ID/test-runs/id/{test_run_id}"
+     "$FREEPLAY_BASE_URL/api/v2/projects/$FREEPLAY_PROJECT_ID/test-runs/id/{test_run_id}"
 ```
 
 ### 2. Extract Key Insights
@@ -89,7 +89,7 @@ For each evaluation criterion in `summary_statistics`:
 
 The following environment variables must be set:
 - `FREEPLAY_API_KEY`: Your Freeplay API key
-- `FREEPLAY_API_URL`: Freeplay API base URL (usually https://api.freeplay.ai)
+- `FREEPLAY_BASE_URL`: Freeplay API base URL (default: https://app.freeplay.ai)
 
 These are typically configured in the plugin's `.mcp.json` file or user's environment.
 

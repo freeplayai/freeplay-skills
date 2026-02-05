@@ -23,14 +23,14 @@ def get_freeplay_config() -> Dict[str, Any]:
         SystemExit if required environment variables are missing
     """
     api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
-    api_base = os.environ.get("FREEPLAY_API_BASE")
+    api_base = os.environ.get("FREEPLAY_BASE_URL", "https://app.freeplay.ai")
     project_id = os.environ.get("FREEPLAY_PROJECT_ID")
 
     missing = []
     if not api_key:
         missing.append("FREEPLAY_API_KEY")
     if not api_base:
-        missing.append("FREEPLAY_API_BASE")
+        missing.append("FREEPLAY_BASE_URL")
     if not project_id:
         missing.append("FREEPLAY_PROJECT_ID")
 

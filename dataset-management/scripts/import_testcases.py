@@ -168,14 +168,14 @@ def main():
 
     # Get environment variables
     api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
-    api_base = os.environ.get("FREEPLAY_API_BASE")
+    api_base = os.environ.get("FREEPLAY_BASE_URL", "https://app.freeplay.ai")
     project_id = os.environ.get("FREEPLAY_PROJECT_ID")
 
     if not api_key:
         print("Error: FREEPLAY_API_KEY environment variable not set", file=sys.stderr)
         sys.exit(1)
     if not api_base:
-        print("Error: FREEPLAY_API_BASE environment variable not set", file=sys.stderr)
+        print("Error: FREEPLAY_BASE_URL environment variable not set", file=sys.stderr)
         sys.exit(1)
     if not project_id:
         print("Error: FREEPLAY_PROJECT_ID environment variable not set", file=sys.stderr)

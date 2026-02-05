@@ -84,7 +84,7 @@ Once you've found the test run implementation:
 1. **Identify the entry point** - Find the script/function that initiates test runs
 2. **Check for required environment variables:**
    - `FREEPLAY_API_KEY`
-   - `FREEPLAY_API_BASE` or `FREEPLAY_API_URL`
+   - `FREEPLAY_BASE_URL` (default: https://app.freeplay.ai)
    - `FREEPLAY_PROJECT_ID`
    - `OPENAI_API_KEY` (or other LLM provider keys)
 
@@ -148,7 +148,7 @@ from scripts.secrets import SecretString
 api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
 fp_client = Freeplay(
     api_key=api_key.get(),
-    api_base=os.environ["FREEPLAY_API_BASE"]
+    api_base=os.environ.get("FREEPLAY_BASE_URL", "https://app.freeplay.ai")
 )
 openai_client = OpenAI()
 
@@ -191,7 +191,7 @@ print(f"Test run completed: {test_run.id}")
 
 Required variables that must be set:
 - `FREEPLAY_API_KEY` - Freeplay API key
-- `FREEPLAY_API_BASE` - Freeplay API URL (e.g., https://api.freeplay.ai)
+- `FREEPLAY_BASE_URL` - Freeplay API URL (default: https://app.freeplay.ai)
 - `FREEPLAY_PROJECT_ID` - Project ID in Freeplay
 - LLM provider keys (e.g., `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`)
 

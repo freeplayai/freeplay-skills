@@ -40,12 +40,12 @@ headers = {
     "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
-base = f"{os.environ['FREEPLAY_API_BASE']}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
+base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
 ```
 
 All examples assume this setup. Required environment variables:
 - `FREEPLAY_API_KEY` - Your Freeplay API key
-- `FREEPLAY_API_BASE` - API URL (e.g., https://api.freeplay.ai)
+- `FREEPLAY_BASE_URL` - API URL (default: https://app.freeplay.ai)
 - `FREEPLAY_PROJECT_ID` - Target project ID
 
 ### Create a Prompt Dataset

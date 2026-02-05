@@ -45,14 +45,14 @@ One test case per line:
 
 Required:
 - `FREEPLAY_API_KEY` - Your Freeplay API key
-- `FREEPLAY_API_BASE` - API URL (e.g., https://api.freeplay.ai)
+- `FREEPLAY_BASE_URL` - API URL (default: https://app.freeplay.ai)
 - `FREEPLAY_PROJECT_ID` - Target project ID
 
 ### Example
 
 ```bash
 export FREEPLAY_API_KEY="fp_..."
-export FREEPLAY_API_BASE="https://api.freeplay.ai"
+export FREEPLAY_BASE_URL="https://app.freeplay.ai"
 export FREEPLAY_PROJECT_ID="proj_123"
 
 python scripts/import_testcases.py \
@@ -97,7 +97,7 @@ count = batch_create_test_cases(
 
 Same as `import_testcases.py`:
 - `FREEPLAY_API_KEY`
-- `FREEPLAY_API_BASE`
+- `FREEPLAY_BASE_URL`
 - `FREEPLAY_PROJECT_ID`
 
 ### Note
