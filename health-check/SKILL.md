@@ -66,7 +66,7 @@ get_prompt_version(project_id, template_id, version_id)
 ```bash
 # List all environments to verify deployment targets exist
 curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/accounts/environments"
+     "$FREEPLAY_BASE_URL/api/v2/environments"
 
 # Get version history for a specific template (to check iteration)
 curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
@@ -294,7 +294,7 @@ list_prompt_templates(project_id) → check which environments have deployments
 ```bash
 # List all environments in the account
 curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/accounts/environments"
+     "$FREEPLAY_BASE_URL/api/v2/environments"
 
 # Get project settings
 curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
@@ -347,7 +347,7 @@ curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
 
 # Environments
 curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/accounts/environments"
+     "$FREEPLAY_BASE_URL/api/v2/environments"
 
 # Evaluation Criteria
 curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
