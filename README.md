@@ -31,6 +31,18 @@ git clone git@github.com:freeplayai/freeplay-skills.git .cursor/skills/freeplay-
 git clone git@github.com:freeplayai/freeplay-skills.git ~/.cursor/skills/freeplay-skills
 ```
 
+## Required Environment Variables
+
+The following environment variables must be set:
+
+| Variable | Description |
+|----------|-------------|
+| `FREEPLAY_API_KEY` | Your Freeplay API key (required) |
+| `FREEPLAY_API_BASE` | Freeplay API base URL (required) |
+| `FREEPLAY_PROJECT_ID` | Your Freeplay project ID (required) |
+
+**Security Note:** API keys are handled securely and will never be logged or printed. The `SecretString` wrapper ensures keys are displayed as `[REDACTED]` if accidentally printed.
+
 ## Usage with Claude Code
 
 These skills are auto-invoked by Claude based on context when using the Freeplay plugin. They are included as a git submodule in the main plugin repository.
