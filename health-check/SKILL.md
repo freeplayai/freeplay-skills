@@ -505,6 +505,23 @@ Based on this assessment, you should:
 3. Validate model-graded evals against human judgment
 4. Consider creating calibration datasets
 
+## Security: Protecting API Keys in curl Commands
+
+All curl commands in this skill MUST use process substitution to pass the
+Authorization header, preventing the API key from appearing in process listings:
+
+```bash
+# CORRECT - key is not visible in `ps` output
+curl -s "$FREEPLAY_BASE_URL/api/v2/..." \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
+
+# WRONG - key is exposed as a command-line argument
+curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
+     "$FREEPLAY_BASE_URL/api/v2/..."
+```
+
+Never log, echo, or display the value of FREEPLAY_API_KEY in output.
+
 ## Environment Variables
 
 Required for API calls:
