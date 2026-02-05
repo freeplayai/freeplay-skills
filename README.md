@@ -1,6 +1,14 @@
 # Freeplay Skills
 
-Skills for the [Freeplay Plugin](https://github.com/freeplayai/freeplay-plugin) for Claude Code.
+Skills for the [Freeplay Plugin](https://github.com/freeplayai/freeplay-plugin) for Claude Code and Cursor.
+
+## ⚠️ EXPERIMENTAL
+
+**These skills are experimental and will change.** Use at your own risk.
+
+When used with the Freeplay MCP server, these skills instruct agents that have access to your Freeplay API key. A malicious or compromised agent could extract the key and perform destructive actions against your Freeplay account. Only use with agents you fully trust.
+
+---
 
 ## Installation
 
