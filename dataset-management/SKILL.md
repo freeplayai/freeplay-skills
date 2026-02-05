@@ -5,6 +5,12 @@ description: Create, manage, and curate Freeplay datasets (prompt-level and agen
 
 # Freeplay Dataset Management
 
+## IMPORTANT: Safety Guidelines
+
+**Confirmation Required:** Always ask for user confirmation before performing any write operations (creating datasets, adding test cases, updating datasets, updating test cases).
+
+**No Deletion Operations:** Do NOT perform any deletion operations (deleting datasets or test cases). If the user requests deletion, inform them that deletion must be done manually through the Freeplay UI or API directly. This skill does not support deletion actions to prevent accidental data loss.
+
 Manage test datasets for evaluating prompts and agents in Freeplay.
 
 ## Critical: Two Dataset Types
@@ -158,17 +164,6 @@ response = requests.patch(
 # Status: 200 OK
 ```
 
-### Delete Test Cases
-
-```python
-response = requests.delete(
-    f"{base}/prompt-datasets/{dataset_id}/test-cases/bulk",
-    headers=headers,
-    json={"test_case_ids": ["tc_123", "tc_456"]}  # Max 100 per request
-)
-# Status: 200 OK
-```
-
 ## Workflow Patterns
 
 For complex operations, use the checklist pattern:
@@ -195,7 +190,6 @@ See [examples.md](examples.md) for complete workflows with verification steps.
 - Adding test cases: [Prompt](prompt-datasets.md#adding-test-cases) | [Agent](agent-datasets.md#adding-test-cases)
 - Test case structure: [Prompt](prompt-datasets.md#test-case-structure) | [Agent](agent-datasets.md#test-case-structure)
 - Updating operations: [Prompt](prompt-datasets.md#updating-test-cases) | [Agent](agent-datasets.md#updating-test-cases)
-- Deleting operations: [Prompt](prompt-datasets.md#deleting-test-cases) | [Agent](agent-datasets.md#deleting-test-cases)
 
 ## Utility Scripts
 
@@ -206,7 +200,7 @@ See [examples.md](examples.md) for complete workflows with verification steps.
 
 **`scripts/batch_operations.py`** - Reusable batch operation functions
 - Use in custom scripts for programmatic batch operations
-- Functions: `batch_create_test_cases()`, `batch_delete_test_cases()`
+- Functions: `batch_create_test_cases()`
 
 ## Common Errors
 

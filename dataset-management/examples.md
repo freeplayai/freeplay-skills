@@ -488,7 +488,7 @@ else:
 
 ## Tips for All Workflows
 
-1. **Always verify status codes:** Check for `201` on creates, `200` on reads/updates/deletes
+1. **Always verify status codes:** Check for `201` on creates, `200` on reads/updates
 2. **Include verification steps:** Don't assume operations succeeded
 3. **Use descriptive variable names:** Makes debugging easier
 4. **Log progress:** Print checkpoints as you go
