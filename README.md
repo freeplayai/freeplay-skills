@@ -41,7 +41,7 @@ The following environment variables must be set:
 | `FREEPLAY_API_BASE` | Freeplay API base URL (required) |
 | `FREEPLAY_PROJECT_ID` | Your Freeplay project ID (required) |
 
-**Security Note:** API keys are handled securely and will never be logged or printed. The `SecretString` wrapper ensures keys are displayed as `[REDACTED]` if accidentally printed.
+**Security Note:** API keys are handled securely and should never be logged or printed. The `SecretString` wrapper ensures keys are displayed as `[REDACTED]` if accidentally printed.
 
 ## Usage with Claude Code
 
