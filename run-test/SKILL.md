@@ -142,10 +142,12 @@ For reference, a typical component-level test run script looks like:
 from freeplay import Freeplay, RecordPayload
 from openai import OpenAI
 import os
+from scripts.secrets import SecretString
 
-# Initialize clients
+# Initialize clients (use SecretString to prevent accidental logging)
+api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
 fp_client = Freeplay(
-    api_key=os.environ["FREEPLAY_API_KEY"],
+    api_key=api_key.get(),
     api_base=os.environ["FREEPLAY_API_BASE"]
 )
 openai_client = OpenAI()

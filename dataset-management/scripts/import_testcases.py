@@ -13,6 +13,8 @@ import sys
 import requests
 from typing import List, Dict, Any
 
+from secrets import SecretString, safe_error_message
+
 
 def load_jsonl(file_path: str) -> List[Dict[str, Any]]:
     """Load test cases from JSONL file."""
@@ -72,7 +74,7 @@ def batch_upload(
     dataset_id: str,
     api_base: str,
     project_id: str,
-    api_key: str,
+    api_key: SecretString,
     batch_size: int = 100
 ) -> None:
     """Upload test cases in batches.
@@ -83,11 +85,11 @@ def batch_upload(
         dataset_id: The dataset ID
         api_base: Freeplay API base URL
         project_id: Freeplay project ID
-        api_key: Freeplay API key
+        api_key: SecretString containing the Freeplay API key
         batch_size: Number of test cases per batch (max 100)
     """
     headers = {
-        "Authorization": f"Bearer {api_key}",
+        "Authorization": f"Bearer {api_key.get()}",
         "Content-Type": "application/json"
     }
 
@@ -117,7 +119,7 @@ def batch_upload(
                 print(f"✓ Batch {batch_num}/{total_batches}: Uploaded {uploaded} test cases")
             else:
                 print(f"✗ Batch {batch_num}/{total_batches} failed: {response.status_code}", file=sys.stderr)
-                print(f"  Response: {response.text}", file=sys.stderr)
+                print(f"  Response: {safe_error_message(response.text)}", file=sys.stderr)
 
         except requests.RequestException as e:
             print(f"✗ Batch {batch_num}/{total_batches} failed: {e}", file=sys.stderr)
@@ -165,7 +167,7 @@ def main():
         sys.exit(1)
 
     # Get environment variables
-    api_key = os.environ.get("FREEPLAY_API_KEY")
+    api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
     api_base = os.environ.get("FREEPLAY_API_BASE")
     project_id = os.environ.get("FREEPLAY_PROJECT_ID")
 

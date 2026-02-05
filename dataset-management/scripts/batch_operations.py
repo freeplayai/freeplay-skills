@@ -10,17 +10,19 @@ import sys
 import requests
 from typing import List, Dict, Any, Callable
 
+from secrets import SecretString, safe_error_message
 
-def get_freeplay_config() -> Dict[str, str]:
+
+def get_freeplay_config() -> Dict[str, Any]:
     """Get Freeplay configuration from environment variables.
 
     Returns:
-        Dict with api_key, api_base, and project_id
+        Dict with api_key (SecretString), api_base, and project_id
 
     Raises:
         SystemExit if required environment variables are missing
     """
-    api_key = os.environ.get("FREEPLAY_API_KEY")
+    api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
     api_base = os.environ.get("FREEPLAY_API_BASE")
     project_id = os.environ.get("FREEPLAY_PROJECT_ID")
 
@@ -43,10 +45,14 @@ def get_freeplay_config() -> Dict[str, str]:
     }
 
 
-def get_headers(api_key: str) -> Dict[str, str]:
-    """Get standard headers for Freeplay API requests."""
+def get_headers(api_key: SecretString) -> Dict[str, str]:
+    """Get standard headers for Freeplay API requests.
+
+    Args:
+        api_key: SecretString containing the API key
+    """
     return {
-        "Authorization": f"Bearer {api_key}",
+        "Authorization": f"Bearer {api_key.get()}",
         "Content-Type": "application/json"
     }
 
@@ -99,7 +105,7 @@ def batch_create_test_cases(
             else:
                 if verbose:
                     print(f"✗ Batch {batch_num}/{total_batches} failed: {response.status_code}", file=sys.stderr)
-                    print(f"  Response: {response.text}", file=sys.stderr)
+                    print(f"  Response: {safe_error_message(response.text)}", file=sys.stderr)
 
         except requests.RequestException as e:
             if verbose:

@@ -31,6 +31,18 @@ git clone git@github.com:freeplayai/freeplay-skills.git .cursor/skills/freeplay-
 git clone git@github.com:freeplayai/freeplay-skills.git ~/.cursor/skills/freeplay-skills
 ```
 
+## Required Environment Variables
+
+The following environment variables must be set:
+
+| Variable | Description |
+|----------|-------------|
+| `FREEPLAY_API_KEY` | Your Freeplay API key (required) |
+| `FREEPLAY_API_BASE` | Freeplay API base URL (required) |
+| `FREEPLAY_PROJECT_ID` | Your Freeplay project ID (required) |
+
+**Security Note:** API keys are handled securely and should never be logged or printed. The `SecretString` wrapper ensures keys are displayed as `[REDACTED]` if accidentally printed.
+
 ## Usage with Claude Code
 
 These skills are auto-invoked by Claude based on context when using the Freeplay plugin. They are included as a git submodule in the main plugin repository.
@@ -40,6 +52,14 @@ These skills are auto-invoked by Claude based on context when using the Freeplay
 These skills can also be used with [Cursor](https://cursor.com) through its [Agent Skills](https://cursor.com/docs/context/skills) system. When installed to `.claude/skills/` (via OpenSkills) or `.cursor/skills/` (via manual installation), Cursor automatically discovers and invokes them based on context.
 
 Skills are separate from [Cursor Rules](https://cursor.com/docs/context/rules) (stored in `.cursor/rules/`) which provide persistent behavioral guidelines. Skills and rules work together - rules define how the AI should behave, while skills provide specialized capabilities that are auto-invoked when relevant.
+
+## Shared Scripts
+
+The `scripts/` directory contains shared utilities used across multiple skills:
+
+- **`secrets.py`** - Secure handling of API keys with `SecretString` wrapper
+
+Skills should symlink to these shared modules rather than duplicating code. See [`scripts/README.md`](scripts/README.md) for details.
 
 ## Adding a New Skill
 
