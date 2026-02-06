@@ -525,8 +525,7 @@ Required for API calls:
 
 Project ID can come from:
 - User specification
-- `FREEPLAY_PROJECT_ID` environment variable
-- MCP configuration
+- MCP `list_projects()` tool to discover available projects
 
 ## Linking to Other Skills
 

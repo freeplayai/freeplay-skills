@@ -38,7 +38,7 @@ from scripts.secrets import SecretString
 # Step 1: Setup
 api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
 freeplay_base_url = os.environ.get("FREEPLAY_BASE_URL", "https://app.freeplay.ai")
-project_id = os.environ["FREEPLAY_PROJECT_ID"]
+project_id = "<project-id>"  # Provided by user or discovered via list_projects()
 
 headers = {
     "Authorization": f"Bearer {api_key.get()}",
@@ -224,7 +224,8 @@ headers = {
     "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
-base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
+project_id = "<project-id>"  # Provided by user or discovered via list_projects()
+base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{project_id}"
 
 response = requests.post(
     f"{base}/prompt-datasets",
@@ -310,7 +311,8 @@ headers = {
     "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
-base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
+project_id = "<project-id>"  # Provided by user or discovered via list_projects()
+base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{project_id}"
 
 # Step 1: Create agent dataset
 print("Step 1: Creating agent dataset...")
@@ -424,7 +426,8 @@ headers = {
     "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
-base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
+project_id = "<project-id>"  # Provided by user or discovered via list_projects()
+base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{project_id}"
 dataset_id = "ds_abc123"  # Replace with your dataset ID
 
 # Step 1: Retrieve all test cases

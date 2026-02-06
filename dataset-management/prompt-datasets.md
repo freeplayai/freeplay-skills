@@ -31,7 +31,8 @@ headers = {
     "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
-base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
+project_id = "<project-id>"  # Provided by user or discovered via list_projects()
+base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{project_id}"
 ```
 
 ## Creating Datasets

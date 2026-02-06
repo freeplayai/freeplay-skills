@@ -50,12 +50,12 @@ The following environment variables must be set:
 
 **Security Note:** API keys are handled securely and should never be logged or printed. The `SecretString` wrapper ensures keys are displayed as `[REDACTED]` if accidentally printed.
 
-## Optional Environment Variables
+## Project ID
 
-Project ID can come from:
+Project ID is not an environment variable. It can come from:
 - User specification
-- `FREEPLAY_PROJECT_ID` environment variable
-- MCP configuration
+- MCP `list_projects()` tool to discover available projects
+- `--project-id` CLI arg (for scripts)
 
 ## Usage with Claude Code
 

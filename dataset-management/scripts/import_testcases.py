@@ -132,6 +132,30 @@ def batch_upload(
         sys.exit(1)
 
 
+def _list_projects(api_base, api_key):
+    """List available Freeplay projects."""
+    headers = {
+        "Authorization": f"Bearer {api_key.get()}",
+        "Content-Type": "application/json"
+    }
+    url = f"{api_base}/api/v2/projects"
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        projects = response.json().get("data", response.json() if isinstance(response.json(), list) else [])
+        if not projects:
+            print("No projects found.", file=sys.stderr)
+            return
+        print("Available projects:", file=sys.stderr)
+        for proj in projects:
+            name = proj.get("name", "unnamed")
+            proj_id = proj.get("id", "unknown")
+            print(f"  - {name} (ID: {proj_id})", file=sys.stderr)
+        print(f"\nRe-run with: --project-id <id>", file=sys.stderr)
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching projects: {e}", file=sys.stderr)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Import test cases from CSV or JSONL files into Freeplay datasets"
@@ -153,6 +177,10 @@ def main():
         help="Dataset type: 'prompt' for prompt-datasets, 'agent' for agent-datasets"
     )
     parser.add_argument(
+        "--project-id",
+        help="Freeplay project ID (required; lists available projects if not provided)"
+    )
+    parser.add_argument(
         "--batch-size",
         type=int,
         default=100,
@@ -169,7 +197,7 @@ def main():
     # Get environment variables
     api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
     api_base = os.environ.get("FREEPLAY_BASE_URL", "https://app.freeplay.ai")
-    project_id = os.environ.get("FREEPLAY_PROJECT_ID")
+    project_id = args.project_id
 
     if not api_key:
         print("Error: FREEPLAY_API_KEY environment variable not set", file=sys.stderr)
@@ -178,7 +206,9 @@ def main():
         print("Error: FREEPLAY_BASE_URL environment variable not set", file=sys.stderr)
         sys.exit(1)
     if not project_id:
-        print("Error: FREEPLAY_PROJECT_ID environment variable not set", file=sys.stderr)
+        print("No project ID provided. Use --project-id <id>.", file=sys.stderr)
+        print("Fetching available projects...\n", file=sys.stderr)
+        _list_projects(api_base, api_key)
         sys.exit(1)
 
     # Load test cases

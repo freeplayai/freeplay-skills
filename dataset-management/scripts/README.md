@@ -13,6 +13,7 @@ python import_testcases.py \
   --file <path-to-file> \
   --dataset-id <dataset-id> \
   --type <prompt|agent> \
+  [--project-id <project-id>] \
   [--batch-size <num>]
 ```
 
@@ -21,6 +22,7 @@ python import_testcases.py \
 - `--file` (required) - Path to CSV or JSONL file
 - `--dataset-id` (required) - Freeplay dataset ID
 - `--type` (required) - Dataset type: `prompt` or `agent`
+- `--project-id` (optional) - Freeplay project ID (lists available projects if not provided)
 - `--batch-size` (optional) - Items per batch (1-100, default: 100)
 
 ### CSV Format
@@ -46,18 +48,17 @@ One test case per line:
 Required:
 - `FREEPLAY_API_KEY` - Your Freeplay API key
 - `FREEPLAY_BASE_URL` - API URL (default: https://app.freeplay.ai)
-- `FREEPLAY_PROJECT_ID` - Target project ID
 
 ### Example
 
 ```bash
 export FREEPLAY_API_KEY="fp_..."
 export FREEPLAY_BASE_URL="https://app.freeplay.ai"
-export FREEPLAY_PROJECT_ID="proj_123"
 
 python scripts/import_testcases.py \
   --file my_test_cases.csv \
   --dataset-id ds_abc123 \
+  --project-id proj_123 \
   --type prompt
 ```
 
@@ -98,7 +99,6 @@ count = batch_create_test_cases(
 Same as `import_testcases.py`:
 - `FREEPLAY_API_KEY`
 - `FREEPLAY_BASE_URL`
-- `FREEPLAY_PROJECT_ID`
 
 ### Note
 

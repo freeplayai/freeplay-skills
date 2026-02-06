@@ -13,8 +13,11 @@ from typing import List, Dict, Any, Callable
 from secrets import SecretString, safe_error_message
 
 
-def get_freeplay_config() -> Dict[str, Any]:
+def get_freeplay_config(project_id: str = None) -> Dict[str, Any]:
     """Get Freeplay configuration from environment variables.
+
+    Args:
+        project_id: Project ID (required)
 
     Returns:
         Dict with api_key (SecretString), api_base, and project_id
@@ -24,25 +27,49 @@ def get_freeplay_config() -> Dict[str, Any]:
     """
     api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
     api_base = os.environ.get("FREEPLAY_BASE_URL", "https://app.freeplay.ai")
-    project_id = os.environ.get("FREEPLAY_PROJECT_ID")
+    resolved_project_id = project_id
 
     missing = []
     if not api_key:
         missing.append("FREEPLAY_API_KEY")
     if not api_base:
         missing.append("FREEPLAY_BASE_URL")
-    if not project_id:
-        missing.append("FREEPLAY_PROJECT_ID")
 
     if missing:
         print(f"Error: Missing environment variables: {', '.join(missing)}", file=sys.stderr)
         sys.exit(1)
 
+    if not resolved_project_id:
+        print("No project ID provided. Pass project_id to get_freeplay_config().", file=sys.stderr)
+        print("Fetching available projects...\n", file=sys.stderr)
+        _list_projects(api_base, api_key)
+        sys.exit(1)
+
     return {
         "api_key": api_key,
         "api_base": api_base,
-        "project_id": project_id
+        "project_id": resolved_project_id
     }
+
+
+def _list_projects(api_base, api_key):
+    """List available Freeplay projects."""
+    headers = get_headers(api_key)
+    url = f"{api_base}/api/v2/projects"
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        projects = response.json().get("data", response.json() if isinstance(response.json(), list) else [])
+        if not projects:
+            print("No projects found.", file=sys.stderr)
+            return
+        print("Available projects:", file=sys.stderr)
+        for proj in projects:
+            name = proj.get("name", "unnamed")
+            proj_id = proj.get("id", "unknown")
+            print(f"  - {name} (ID: {proj_id})", file=sys.stderr)
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching projects: {e}", file=sys.stderr)
 
 
 def get_headers(api_key: SecretString) -> Dict[str, str]:

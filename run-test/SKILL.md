@@ -85,7 +85,7 @@ Once you've found the test run implementation:
 2. **Check for required environment variables:**
    - `FREEPLAY_API_KEY`
    - `FREEPLAY_BASE_URL` (default: https://app.freeplay.ai)
-   - `FREEPLAY_PROJECT_ID`
+   - Project ID (provided by user or discovered via `list_projects()`)
    - `OPENAI_API_KEY` (or other LLM provider keys)
 
 3. **Determine how to run it:**
@@ -152,7 +152,7 @@ fp_client = Freeplay(
 )
 openai_client = OpenAI()
 
-project_id = os.environ["FREEPLAY_PROJECT_ID"]
+project_id = "<project-id>"  # Provided by user or discovered via list_projects()
 
 # Create test run
 test_run = fp_client.test_runs.create(
@@ -192,8 +192,11 @@ print(f"Test run completed: {test_run.id}")
 Required variables that must be set:
 - `FREEPLAY_API_KEY` - Freeplay API key
 - `FREEPLAY_BASE_URL` - Freeplay API URL (default: https://app.freeplay.ai)
-- `FREEPLAY_PROJECT_ID` - Project ID in Freeplay
 - LLM provider keys (e.g., `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`)
+
+Project ID can come from:
+- User specification
+- MCP `list_projects()` tool to discover available projects
 
 ## Tips
 
