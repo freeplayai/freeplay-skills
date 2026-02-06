@@ -17,7 +17,7 @@ When used with the Freeplay MCP server, these skills instruct agents that have a
 Install directly from GitHub using [OpenSkills](https://github.com/numman-ali/openskills):
 
 ```bash
-npx openskills install git@github.com:freeplayai/freeplay-skills.git
+npx openskills install https://github.com/freeplayai/freeplay-skills.git
 ```
 
 ### Manual Installation
@@ -26,17 +26,17 @@ Clone this repository into your skills directory:
 
 **For Claude Code:**
 ```bash
-git clone git@github.com:freeplayai/freeplay-skills.git ~/.config/claude-code/skills/freeplay-skills
+git clone https://github.com/freeplayai/freeplay-skills.git ~/.config/claude-code/skills/freeplay-skills
 ```
 
 **For Cursor (project-level):**
 ```bash
-git clone git@github.com:freeplayai/freeplay-skills.git .cursor/skills/freeplay-skills
+git clone https://github.com/freeplayai/freeplay-skills.git .cursor/skills/freeplay-skills
 ```
 
 **For Cursor (global):**
 ```bash
-git clone git@github.com:freeplayai/freeplay-skills.git ~/.cursor/skills/freeplay-skills
+git clone https://github.com/freeplayai/freeplay-skills.git ~/.cursor/skills/freeplay-skills
 ```
 
 ## Required Environment Variables
