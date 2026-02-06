@@ -14,6 +14,7 @@ import requests
 from typing import List, Dict, Any
 
 from secrets import SecretString, safe_error_message
+from api import get_headers, list_projects
 
 
 def load_jsonl(file_path: str) -> List[Dict[str, Any]]:
@@ -88,10 +89,7 @@ def batch_upload(
         api_key: SecretString containing the Freeplay API key
         batch_size: Number of test cases per batch (max 100)
     """
-    headers = {
-        "Authorization": f"Bearer {api_key.get()}",
-        "Content-Type": "application/json"
-    }
+    headers = get_headers(api_key)
 
     total_batches = (len(test_cases) + batch_size - 1) // batch_size
     successful_batches = 0
@@ -130,30 +128,6 @@ def batch_upload(
 
     if total_uploaded < len(test_cases):
         sys.exit(1)
-
-
-def _list_projects(api_base, api_key):
-    """List available Freeplay projects."""
-    headers = {
-        "Authorization": f"Bearer {api_key.get()}",
-        "Content-Type": "application/json"
-    }
-    url = f"{api_base}/api/v2/projects"
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        projects = response.json().get("data", response.json() if isinstance(response.json(), list) else [])
-        if not projects:
-            print("No projects found.", file=sys.stderr)
-            return
-        print("Available projects:", file=sys.stderr)
-        for proj in projects:
-            name = proj.get("name", "unnamed")
-            proj_id = proj.get("id", "unknown")
-            print(f"  - {name} (ID: {proj_id})", file=sys.stderr)
-        print(f"\nRe-run with: --project-id <id>", file=sys.stderr)
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching projects: {e}", file=sys.stderr)
 
 
 def main():
@@ -208,7 +182,7 @@ def main():
     if not project_id:
         print("No project ID provided. Use --project-id <id>.", file=sys.stderr)
         print("Fetching available projects...\n", file=sys.stderr)
-        _list_projects(api_base, api_key)
+        list_projects(api_base, api_key)
         sys.exit(1)
 
     # Load test cases

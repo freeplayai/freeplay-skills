@@ -71,6 +71,7 @@ Skills are separate from [Cursor Rules](https://cursor.com/docs/context/rules) (
 
 The `scripts/` directory contains shared utilities used across multiple skills:
 
+- **`api.py`** - A small subset of API calls that can be used. 
 - **`secrets.py`** - Secure handling of API keys with `SecretString` wrapper
 
 Skills should symlink to these shared modules rather than duplicating code. See [`scripts/README.md`](scripts/README.md) for details.

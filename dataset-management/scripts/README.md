@@ -88,8 +88,6 @@ count = batch_create_test_cases(
 
 **`get_freeplay_config()`** - Get config from environment variables
 
-**`get_headers(api_key)`** - Get standard API request headers
-
 **`batch_create_test_cases(test_cases, dataset_type, dataset_id, batch_size=100, verbose=True)`**
 - Uploads test cases in batches
 - Returns count of successfully created test cases

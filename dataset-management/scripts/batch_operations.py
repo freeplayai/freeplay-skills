@@ -11,6 +11,7 @@ import requests
 from typing import List, Dict, Any, Callable
 
 from secrets import SecretString, safe_error_message
+from api import get_headers, list_projects
 
 
 def get_freeplay_config(project_id: str = None) -> Dict[str, Any]:
@@ -41,45 +42,13 @@ def get_freeplay_config(project_id: str = None) -> Dict[str, Any]:
     if not project_id:
         print("No project ID provided. Pass project_id to get_freeplay_config().", file=sys.stderr)
         print("Fetching available projects...\n", file=sys.stderr)
-        _list_projects(api_base, api_key)
+        list_projects(api_base, api_key)
         sys.exit(1)
 
     return {
         "api_key": api_key,
         "api_base": api_base,
         "project_id": project_id
-    }
-
-
-def _list_projects(api_base, api_key):
-    """List available Freeplay projects."""
-    headers = get_headers(api_key)
-    url = f"{api_base}/api/v2/projects"
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        projects = response.json().get("data", response.json() if isinstance(response.json(), list) else [])
-        if not projects:
-            print("No projects found.", file=sys.stderr)
-            return
-        print("Available projects:", file=sys.stderr)
-        for proj in projects:
-            name = proj.get("name", "unnamed")
-            proj_id = proj.get("id", "unknown")
-            print(f"  - {name} (ID: {proj_id})", file=sys.stderr)
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching projects: {e}", file=sys.stderr)
-
-
-def get_headers(api_key: SecretString) -> Dict[str, str]:
-    """Get standard headers for Freeplay API requests.
-
-    Args:
-        api_key: SecretString containing the API key
-    """
-    return {
-        "Authorization": f"Bearer {api_key.get()}",
-        "Content-Type": "application/json"
     }
 
 
