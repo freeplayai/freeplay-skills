@@ -85,8 +85,10 @@ Once you've found the test run implementation:
 2. **Check for required environment variables:**
    - `FREEPLAY_API_KEY`
    - `FREEPLAY_BASE_URL` (default: https://app.freeplay.ai)
-   - Project ID (provided by user or discovered via `list_projects()`)
    - `OPENAI_API_KEY` (or other LLM provider keys)
+
+**NOTE** 
+Project ID can be provided by user or discovered via `list_projects()`
 
 3. **Determine how to run it:**
    ```bash
