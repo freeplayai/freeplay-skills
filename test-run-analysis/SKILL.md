@@ -124,6 +124,12 @@ When presenting test run results to the user, include:
 4. **Recommendations**
    - Suggest next steps based on results
    - Highlight specific test cases to review if pass rate is low
+   - **When no evaluations are configured:** The test run completed but has no quantitative metrics to analyze. Provide specific, actionable guidance:
+     - Explain that without evaluations, test runs only capture raw outputs — evaluations are what score those outputs automatically on each run
+     - Direct the user to set up evaluations: open the prompt in the Freeplay UI → go to the **Evaluate** tab → create evaluation criteria (e.g., model-graded criteria that check for accuracy, relevance, tone, or format compliance)
+     - Link to the documentation: [Evaluations Overview](https://docs.freeplay.ai/core-concepts/evaluations)
+     - Suggest running the **health-check** skill (`/health-check`) to get a full assessment of their project setup, including evaluation coverage
+     - For immediate value, recommend reviewing a sample of test case outputs directly in the Freeplay UI to manually spot-check quality before investing in automated evaluations
 
 ## Example Analysis Output
 
