@@ -1,6 +1,6 @@
 ---
 name: health-check
-description: Assess health and production readiness of a Freeplay project. Triggers on project status, production readiness, setup gaps, or before significant project changes.
+description: Assess the health, completeness, and production readiness of a Freeplay project across the data flywheel. Use when the user asks about project status, wants to know if their project is ready for production, asks what's missing in their Freeplay setup, wants a project health check, or asks "what should I set up next?" Also use when the user is first connecting a project to Freeplay.
 ---
 
 # Freeplay Project Health Check
@@ -484,9 +484,9 @@ Based on this assessment, you should:
 ### Pattern: Weak Dataset
 **Symptom**: Only one dataset with limited test cases
 **Recommendation**:
-1. Ask the user to confirm the semantic meaning of the dataset (i.e. is it a "Golden Dataset" of representative input/output pairs, or "Failure Cases" including known failures to improve, or "Red Team" test cases that help detect abuse)
+1. Ask the user to confirm the semantic meaning of the dataset (i.e. is it a "Golden Dataset" of representative input/output pairs, or "Failure Cases" including known failure to improve, or "Red Team" test cases that help detect abuse)
 2. Analyze the existing test cases to understand what they cover
-3. Analyze a sample of 100-200 recent production logs for the same component (prompt template or agent) and assess whether the dataset is representative of the prod sample
+3. Analyze a sample of 100-200 recent production logs for the same component (prompt template or agent) and assess whether the dataset is representative of the production sample
 4. Where production examples are markedly different or distinct, suggest examples to the user to add to their dataset. Always get confirmation from the user before changing the test cases in a dataset.
 
 ### Pattern: No Insights
