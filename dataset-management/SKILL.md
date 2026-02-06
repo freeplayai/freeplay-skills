@@ -40,13 +40,17 @@ headers = {
     "Authorization": f"Bearer {api_key.get()}",
     "Content-Type": "application/json"
 }
-base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{os.environ['FREEPLAY_PROJECT_ID']}"
+project_id = "<project-id>"  # See note below on how to resolve this
+base = f"{os.environ.get('FREEPLAY_BASE_URL', 'https://app.freeplay.ai')}/api/v2/projects/{project_id}"
 ```
 
 All examples assume this setup. Required environment variables:
 - `FREEPLAY_API_KEY` - Your Freeplay API key
 - `FREEPLAY_BASE_URL` - API URL (default: https://app.freeplay.ai)
-- `FREEPLAY_PROJECT_ID` - Target project ID
+
+Project ID can come from:
+- User specification
+- MCP `list_projects()` tool to discover available projects
 
 ### Create a Prompt Dataset
 

@@ -47,9 +47,15 @@ The following environment variables must be set:
 |----------|-------------|
 | `FREEPLAY_API_KEY` | Your Freeplay API key (required) |
 | `FREEPLAY_API_BASE` | Freeplay API base URL (required) |
-| `FREEPLAY_PROJECT_ID` | Your Freeplay project ID (required) |
 
 **Security Note:** API keys are handled securely and should never be logged or printed. The `SecretString` wrapper ensures keys are displayed as `[REDACTED]` if accidentally printed.
+
+## Project ID
+
+Project ID can come from:
+- User specification
+- MCP `list_projects()` tool to discover available projects
+- `--project-id` CLI arg (for scripts)
 
 ## Usage with Claude Code
 
@@ -65,6 +71,7 @@ Skills are separate from [Cursor Rules](https://cursor.com/docs/context/rules) (
 
 The `scripts/` directory contains shared utilities used across multiple skills:
 
+- **`api.py`** - A small subset of API calls that can be used. 
 - **`secrets.py`** - Secure handling of API keys with `SecretString` wrapper
 
 Skills should symlink to these shared modules rather than duplicating code. See [`scripts/README.md`](scripts/README.md) for details.

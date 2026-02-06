@@ -11,10 +11,14 @@ import requests
 from typing import List, Dict, Any, Callable
 
 from secrets import SecretString, safe_error_message
+from api import get_headers, list_projects
 
 
-def get_freeplay_config() -> Dict[str, Any]:
+def get_freeplay_config(project_id: str = None) -> Dict[str, Any]:
     """Get Freeplay configuration from environment variables.
+
+    Args:
+        project_id: Project ID (required)
 
     Returns:
         Dict with api_key (SecretString), api_base, and project_id
@@ -24,36 +28,27 @@ def get_freeplay_config() -> Dict[str, Any]:
     """
     api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
     api_base = os.environ.get("FREEPLAY_BASE_URL", "https://app.freeplay.ai")
-    project_id = os.environ.get("FREEPLAY_PROJECT_ID")
 
     missing = []
     if not api_key:
         missing.append("FREEPLAY_API_KEY")
     if not api_base:
         missing.append("FREEPLAY_BASE_URL")
-    if not project_id:
-        missing.append("FREEPLAY_PROJECT_ID")
 
     if missing:
         print(f"Error: Missing environment variables: {', '.join(missing)}", file=sys.stderr)
+        sys.exit(1)
+
+    if not project_id:
+        print("No project ID provided. Pass project_id to get_freeplay_config().", file=sys.stderr)
+        print("Fetching available projects...\n", file=sys.stderr)
+        list_projects(api_base, api_key)
         sys.exit(1)
 
     return {
         "api_key": api_key,
         "api_base": api_base,
         "project_id": project_id
-    }
-
-
-def get_headers(api_key: SecretString) -> Dict[str, str]:
-    """Get standard headers for Freeplay API requests.
-
-    Args:
-        api_key: SecretString containing the API key
-    """
-    return {
-        "Authorization": f"Bearer {api_key.get()}",
-        "Content-Type": "application/json"
     }
 
 

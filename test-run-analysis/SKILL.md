@@ -63,7 +63,7 @@ Use curl or Python to call the API:
 
 ```bash
 curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/$FREEPLAY_PROJECT_ID/test-runs/id/{test_run_id}"
+     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/test-runs/id/{test_run_id}"
 ```
 
 ### 2. Extract Key Insights
@@ -93,7 +93,9 @@ The following environment variables must be set:
 
 These are typically configured in the plugin's `.mcp.json` file or user's environment.
 
-The `FREEPLAY_PROJECT_ID` is also required and should be requested from the user if it is not supplied in the prompt or the mcp.json. 
+Project ID can come from:
+- User specification
+- MCP `list_projects()` tool to discover available projects
 
 ## Response Format
 

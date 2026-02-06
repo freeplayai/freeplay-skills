@@ -14,6 +14,7 @@ import requests
 from typing import List, Dict, Any
 
 from secrets import SecretString, safe_error_message
+from api import get_headers, list_projects
 
 
 def load_jsonl(file_path: str) -> List[Dict[str, Any]]:
@@ -88,10 +89,7 @@ def batch_upload(
         api_key: SecretString containing the Freeplay API key
         batch_size: Number of test cases per batch (max 100)
     """
-    headers = {
-        "Authorization": f"Bearer {api_key.get()}",
-        "Content-Type": "application/json"
-    }
+    headers = get_headers(api_key)
 
     total_batches = (len(test_cases) + batch_size - 1) // batch_size
     successful_batches = 0
@@ -153,6 +151,10 @@ def main():
         help="Dataset type: 'prompt' for prompt-datasets, 'agent' for agent-datasets"
     )
     parser.add_argument(
+        "--project-id",
+        help="Freeplay project ID (required; lists available projects if not provided)"
+    )
+    parser.add_argument(
         "--batch-size",
         type=int,
         default=100,
@@ -169,7 +171,7 @@ def main():
     # Get environment variables
     api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
     api_base = os.environ.get("FREEPLAY_BASE_URL", "https://app.freeplay.ai")
-    project_id = os.environ.get("FREEPLAY_PROJECT_ID")
+    project_id = args.project_id
 
     if not api_key:
         print("Error: FREEPLAY_API_KEY environment variable not set", file=sys.stderr)
@@ -178,7 +180,9 @@ def main():
         print("Error: FREEPLAY_BASE_URL environment variable not set", file=sys.stderr)
         sys.exit(1)
     if not project_id:
-        print("Error: FREEPLAY_PROJECT_ID environment variable not set", file=sys.stderr)
+        print("No project ID provided. Use --project-id <id>.", file=sys.stderr)
+        print("Fetching available projects...\n", file=sys.stderr)
+        list_projects(api_base, api_key)
         sys.exit(1)
 
     # Load test cases
