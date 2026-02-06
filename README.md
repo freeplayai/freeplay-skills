@@ -1,12 +1,12 @@
 # Freeplay Skills
 
-Skills for the [Freeplay Plugin](https://github.com/freeplayai/freeplay-plugin) for Claude Code and Cursor.
+Skills for the [Freeplay Plugin](https://github.com/freeplayai/freeplay-plugin) that teach Claude Code and Cursor to analyze logs, iterate on prompts and agents, and run experiments in [Freeplay](https://freeplay.ai), the ops platform for AI engineering teams.
 
 ## ⚠️ EXPERIMENTAL
 
 **These skills are experimental and will change.** Use at your own risk.
 
-When used with the Freeplay MCP server, these skills instruct agents that have access to your Freeplay API key. A malicious or compromised agent could extract the key and perform destructive actions against your Freeplay account. Only use with agents you fully trust.
+When used with the Freeplay MCP server, these skills instruct agents that have access to your Freeplay API key. A compromised agent could extract the key and perform actions against your Freeplay account outside the scope of these skills. Only use with agents you fully trust.
 
 ---
 
@@ -53,13 +53,13 @@ The following environment variables must be set:
 
 ## Usage with Claude Code
 
-These skills are auto-invoked by Claude based on context when using the Freeplay plugin. They are included as a git submodule in the main plugin repository.
+These skills are auto-invoked by Claude based on context when using the Freeplay plugin. They capture workflows and best practices for working with Freeplay's connected data flywheel: observability, prompt management, datasets, evaluations, and testing. Skills are included as a git submodule in the main plugin repository.
 
 ## Usage with Cursor
 
 These skills can also be used with [Cursor](https://cursor.com) through its [Agent Skills](https://cursor.com/docs/context/skills) system. When installed to `.claude/skills/` (via OpenSkills) or `.cursor/skills/` (via manual installation), Cursor automatically discovers and invokes them based on context.
 
-Skills are separate from [Cursor Rules](https://cursor.com/docs/context/rules) (stored in `.cursor/rules/`) which provide persistent behavioral guidelines. Skills and rules work together - rules define how the AI should behave, while skills provide specialized capabilities that are auto-invoked when relevant.
+Skills are separate from [Cursor Rules](https://cursor.com/docs/context/rules) (stored in `.cursor/rules/`) which provide persistent behavioral guidelines. Skills and rules work together — rules define how the AI should behave, while skills provide specialized workflows that are auto-invoked when relevant.
 
 ## Shared Scripts
 

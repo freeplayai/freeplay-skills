@@ -1,6 +1,6 @@
 ---
 name: health-check
-description: Assess the health, completeness, and production readiness of a Freeplay project. Use when the user asks about project status, wants to know if their project is ready for production, asks what's missing in their setup, or wants to understand what else they can do to improve their use of Freeplay for a given project. Also use proactively when starting work on a new project.
+description: Assess the health, completeness, and production readiness of a Freeplay project across the data flywheel. Use when the user asks about project status, wants to know if their project is ready for production, asks what's missing in their Freeplay setup, wants a project health check, or asks "what should I set up next?" Also use when the user is first connecting a project to Freeplay.
 ---
 
 # Freeplay Project Health Check
@@ -88,7 +88,7 @@ curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
 
 **What to check:**
 - Evaluation criteria exist for key prompt templates/agents
-- Multiple evaluation types configured or present in logs (LLM-graded, code, human)
+- Multiple evaluation types configured or present in logs (model-graded, code, human)
 - Evaluation criteria are enabled and running/published
 - Sample rates are appropriate (not 0%)
 - Insights generation is enabled at project and criteria level
@@ -452,9 +452,9 @@ Based on this assessment, you should:
 3. {Third action}
 
 ---
-*Use `/freeplay:run-test` to execute tests after making changes*
-*Use `/freeplay:test-run-analysis` to analyze test results*
-*Use `/freeplay:deployed-prompts` to check current deployments*
+*Use the `run-test` skill to execute tests after making changes*
+*Use the `test-run-analysis` skill to analyze test results*
+*Use the `dataset-management` skill to build or update datasets*
 ```
 
 ## Common Patterns and Recommendations
@@ -484,10 +484,10 @@ Based on this assessment, you should:
 ### Pattern: Weak Dataset
 **Symptom**: Only one dataset with limited test cases
 **Recommendation**:
-1. As the user to confirm the semantic meaning of the dataset (i.e. is it a "Golden Dataset" of represenative input/output pairs, or "Failure Cases" including known failure to improve, or "Red Team" test cases that help detect abuse)
+1. Ask the user to confirm the semantic meaning of the dataset (i.e. is it a "Golden Dataset" of representative input/output pairs, or "Failure Cases" including known failure to improve, or "Red Team" test cases that help detect abuse)
 2. Analyze the existing test cases to understand what they cover
-3. Analyze a same of 100-200 recent production logs for the same component (prompt template or agent) and assess whether the dataset is representative of the prod sample
-4. Where production examples are markedly different or distinct, suggest examples to the user to add to their dataset. Always get confirmation from the user before changeing the test cases in a dataset.
+3. Analyze a sample of 100-200 recent production logs for the same component (prompt template or agent) and assess whether the dataset is representative of the production sample
+4. Where production examples are markedly different or distinct, suggest examples to the user to add to their dataset. Always get confirmation from the user before changing the test cases in a dataset.
 
 ### Pattern: No Insights
 **Symptom**: Insights list is empty despite activity
@@ -498,7 +498,7 @@ Based on this assessment, you should:
 4. Wait for sufficient data (typically 50+ completions)
 
 ### Pattern: Evaluation Criteria Misalignment
-**Symptom**: Insights show consistent misscoring or low pass rates on expected-good outputs
+**Symptom**: Insights show consistent mis-scoring or low pass rates on expected-good outputs
 **Recommendation**:
 1. Review evaluation criteria prompts for clarity
 2. Check if criteria are inverted (high score = bad)
@@ -535,8 +535,8 @@ Project ID can come from:
 
 ## Linking to Other Skills
 
-After health check, suggest relevant skills:
-- **Missing tests?** → `/freeplay:run-test`
-- **Need to analyze results?** → `/freeplay:test-run-analysis`
-- **Check deployments?** → `/freeplay:deployed-prompts`
-- **Need API help?** → `/freeplay:freeplay-api`
+After the health check, suggest relevant skills:
+- **Missing tests?** → Use the `run-test` skill
+- **Need to analyze results?** → Use the `test-run-analysis` skill
+- **Need to build datasets?** → Use the `dataset-management` skill
+- **Check deployments?** → Use the `get_deployed_prompt_versions` MCP tool
