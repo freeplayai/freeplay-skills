@@ -27,7 +27,6 @@ def get_freeplay_config(project_id: str = None) -> Dict[str, Any]:
     """
     api_key = SecretString(os.environ.get("FREEPLAY_API_KEY"))
     api_base = os.environ.get("FREEPLAY_BASE_URL", "https://app.freeplay.ai")
-    resolved_project_id = project_id
 
     missing = []
     if not api_key:
@@ -39,7 +38,7 @@ def get_freeplay_config(project_id: str = None) -> Dict[str, Any]:
         print(f"Error: Missing environment variables: {', '.join(missing)}", file=sys.stderr)
         sys.exit(1)
 
-    if not resolved_project_id:
+    if not project_id:
         print("No project ID provided. Pass project_id to get_freeplay_config().", file=sys.stderr)
         print("Fetching available projects...\n", file=sys.stderr)
         _list_projects(api_base, api_key)
@@ -48,7 +47,7 @@ def get_freeplay_config(project_id: str = None) -> Dict[str, Any]:
     return {
         "api_key": api_key,
         "api_base": api_base,
-        "project_id": resolved_project_id
+        "project_id": project_id
     }
 
 

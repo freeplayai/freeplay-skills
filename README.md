@@ -52,7 +52,7 @@ The following environment variables must be set:
 
 ## Project ID
 
-Project ID is not an environment variable. It can come from:
+Project ID can come from:
 - User specification
 - MCP `list_projects()` tool to discover available projects
 - `--project-id` CLI arg (for scripts)
