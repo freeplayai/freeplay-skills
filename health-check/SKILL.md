@@ -88,7 +88,7 @@ curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-templates/id/{te
 
 **What to check:**
 - Evaluation criteria exist for key prompt templates/agents
-- Multiple evaluation types configured or present in logs (LLM-graded, code, human)
+- Multiple evaluation types configured or present in logs (model-graded, code, human)
 - Evaluation criteria are enabled and running/published
 - Sample rates are appropriate (not 0%)
 - Insights generation is enabled at project and criteria level
@@ -452,8 +452,9 @@ Based on this assessment, you should:
 3. {Third action}
 
 ---
-*Use `/freeplay:run-test` to execute tests after making changes*
-*Use `/freeplay:test-run-analysis` to analyze test results*
+*Use the `run-test` skill to execute tests after making changes*
+*Use the `test-run-analysis` skill to analyze test results*
+*Use the `dataset-management` skill to build or update datasets*
 ```
 
 ## Common Patterns and Recommendations
@@ -497,7 +498,7 @@ Based on this assessment, you should:
 4. Wait for sufficient data (typically 50+ completions)
 
 ### Pattern: Evaluation Criteria Misalignment
-**Symptom**: Insights show consistent misscoring or low pass rates on expected-good outputs
+**Symptom**: Insights show consistent mis-scoring or low pass rates on expected-good outputs
 **Recommendation**:
 1. Review evaluation criteria prompts for clarity
 2. Check if criteria are inverted (high score = bad)
@@ -529,7 +530,8 @@ Project ID can come from:
 
 ## Linking to Other Skills
 
-After health check, suggest relevant skills:
-- **Missing tests?** → `/freeplay:run-test`
-- **Need to analyze results?** → `/freeplay:test-run-analysis`
-- **Dataset management?** → `/freeplay:dataset-management`
+After the health check, suggest relevant skills:
+- **Missing tests?** → Use the `run-test` skill
+- **Need to analyze results?** → Use the `test-run-analysis` skill
+- **Need to build datasets?** → Use the `dataset-management` skill
+- **Check deployments?** → Use the `get_deployed_prompt_versions` MCP tool

@@ -1,6 +1,6 @@
 ---
 name: run-test
-description: Execute Freeplay test runs to evaluate AI features. Use when the user wants to run a test, execute tests against a dataset, or trigger a test run for their prompts or agents.
+description: Execute Freeplay test runs to evaluate prompt templates and agents against datasets. Always confirm with the user before running — test runs make API calls to LLM providers and may incur costs. Use when the user wants to run a test, execute tests against a dataset, kick off evaluations, or trigger a test run. Do NOT use for analyzing existing test results (use test-run-analysis) or managing datasets (use dataset-management).
 ---
 
 # Run Freeplay Test

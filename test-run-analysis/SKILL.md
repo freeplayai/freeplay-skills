@@ -1,11 +1,11 @@
 ---
-name: test-runs
-description: Work with Freeplay test runs to get insights, metrics, and test case results. Use when the user wants to review test run performance, understand test run evaluation metrics, or review test cases for a run.
+name: test-run-analysis
+description: Analyze Freeplay test run results to surface insights, evaluation metrics, and test case details. Use when the user wants to review test run performance, compare two test runs, understand evaluation scores, or identify failing test cases. Do NOT use for executing new test runs (use run-test) or managing datasets (use dataset-management).
 ---
 
-# Test Runs
+# Test Run Analysis
 
-This skill helps you analyze Freeplay test runs to extract insights, view metrics, and analyze test case results.
+This skill helps you review Freeplay test run results, view evaluation metrics, and identify patterns across test cases.
 
 ## When to use this skill
 
@@ -16,7 +16,7 @@ This skill helps you analyze Freeplay test runs to extract insights, view metric
 - "Which test cases failed in run X?"
 - "What are the evaluation scores from this test?"
 - User mentions a specific test run ID and wants insights
-- Compare two test runs and summarize differrences between latency, cost, and evaluations
+- Compare two test runs and summarize differences between latency, cost, and evaluations
 - Select a winner from two test runs based on available data
 
 ## Available API Endpoints
@@ -93,7 +93,7 @@ The following environment variables must be set:
 
 These are typically configured in the plugin's `.mcp.json` file or user's environment.
 
-An additional item, the `FREEPLAY_PROJECT_ID` is required and should be requested from by the user if it is not supplied in the prompt or the mcp.json. 
+The `FREEPLAY_PROJECT_ID` is also required and should be requested from the user if it is not supplied in the prompt or the mcp.json. 
 
 ## Response Format
 
@@ -197,7 +197,7 @@ When presenting test run results to the user, include:
 
 ## Test Run 2: "Support Ticket Categorization 234dv vs a24bd"
 - Prompt: Ticket Classifier
-- Versions compaired: 
+- Versions compared: 
     - Version: 234dv
       - Model: Opus 4.5
       - Created by: Prompt optimizer

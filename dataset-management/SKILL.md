@@ -1,6 +1,6 @@
 ---
 name: dataset-management
-description: Create, manage, and curate Freeplay datasets (prompt-level and agent-level). Use when the user wants to create a new dataset, add test cases, update datasets, manage dataset content, import test data from CSV or JSONL, create golden sets, or build evaluation datasets.
+description: Create, manage, and curate Freeplay datasets (prompt datasets and agent datasets). Always confirm with the user before any write operations. Use when the user wants to create a new dataset, add test cases, update datasets, manage dataset content, import test data from CSV or JSONL, create golden sets, or build evaluation datasets. Do NOT use for running tests (use run-test) or analyzing test results (use test-run-analysis).
 ---
 
 # Freeplay Dataset Management
@@ -228,7 +228,7 @@ See [examples.md](examples.md) for complete workflows with verification steps.
 After creating datasets:
 - Run tests using the `run-test` skill
 - Analyze results using the `test-run-analysis` skill
-- Deploy prompts using prompt deployment skills
+- Check deployment status using the `get_deployed_prompt_versions` MCP tool
 
 ## Freeplay Documentation
 
