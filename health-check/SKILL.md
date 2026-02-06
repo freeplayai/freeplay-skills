@@ -1,6 +1,6 @@
 ---
 name: health-check
-description: Assess the health, completeness, and production readiness of a Freeplay project across the data flywheel. Use when the user asks about project status, wants to know if their project is ready for production, asks what's missing in their Freeplay setup, wants a project health check, or asks "what should I set up next?" Also use when the user is first connecting a project to Freeplay.
+description: Assess health and production readiness of a Freeplay project. Triggers on project status, production readiness, setup gaps, or before significant project changes.
 ---
 
 # Freeplay Project Health Check
@@ -65,12 +65,12 @@ get_prompt_version(project_id, template_id, version_id)
 **API calls:**
 ```bash
 # List all environments to verify deployment targets exist
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/environments"
+curl -s "$FREEPLAY_BASE_URL/api/v2/environments" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Get version history for a specific template (to check iteration)
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-templates/id/{template_id}/versions"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-templates/id/{template_id}/versions" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 ```
 
 **What to look for:**
@@ -102,12 +102,12 @@ list_insights(project_id) → check if insights are being generated
 **API calls:**
 ```bash
 # List all evaluation criteria with their configuration
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/evaluation-criteria"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/evaluation-criteria" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Get project settings to check insight flags
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 ```
 
 **What to look for:**
@@ -152,9 +152,9 @@ find_logging_issues(project_id, template_name=<main_template>) → identifies mi
 - `find_logging_issues`: Returns specific missing fields with fix suggestions
 
 **Date filtering for recency:**
-Use the `start_date` parameter to check recent activity:
+Use the `start_date` parameter to check recent activity (use a date 7 days ago):
 ```
-search_completions(project_id, limit=20, start_date="2026-01-28")
+search_completions(project_id, limit=20, start_date="YYYY-MM-DD")  # 7 days ago
 ```
 
 **Scoring:**
@@ -172,20 +172,20 @@ search_completions(project_id, limit=20, start_date="2026-01-28")
 **API calls:**
 ```bash
 # List all prompt-level datasets
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-datasets"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-datasets" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # List all agent-level datasets (for agentic projects)
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/agent-datasets"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/agent-datasets" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Get test cases for a specific prompt dataset (to count and inspect)
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-datasets/id/{dataset_id}/test-cases"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-datasets/id/{dataset_id}/test-cases" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Get test cases for a specific agent dataset
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/agent-datasets/id/{dataset_id}/test-cases"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/agent-datasets/id/{dataset_id}/test-cases" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 ```
 
 **MCP tools to use:**
@@ -218,12 +218,12 @@ search_traces(project_id, limit=20) → for agent workflows
 **API calls:**
 ```bash
 # List all test runs
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/test-runs"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/test-runs" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Get detailed results for a specific test run (includes evaluation scores)
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/test-runs/id/{test_run_id}"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/test-runs/id/{test_run_id}" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 ```
 
 **What to look for:**
@@ -256,8 +256,8 @@ search_completions(project_id, limit=50) → look for human evaluation scores
 **API calls:**
 ```bash
 # Get prompt template versions to check for optimization history
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-templates/id/{template_id}/versions"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-templates/id/{template_id}/versions" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Search completions with review_status filter (if available)
 # Look for completions that have been manually reviewed
@@ -293,16 +293,16 @@ list_prompt_templates(project_id) → check which environments have deployments
 **API calls:**
 ```bash
 # List all environments in the account
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/environments"
+curl -s "$FREEPLAY_BASE_URL/api/v2/environments" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Get project settings
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Get all templates deployed to production environment
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-templates/environment/production"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-templates/environment/production" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 ```
 
 **What to look for:**
@@ -342,43 +342,43 @@ find_logging_issues(project_id) → optional, for deeper observability analysis
 And these API calls (can be run in parallel):
 ```bash
 # Project settings (insights flags, retention, limits)
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Environments
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/environments"
+curl -s "$FREEPLAY_BASE_URL/api/v2/environments" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Evaluation Criteria
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/evaluation-criteria"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/evaluation-criteria" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Prompt Datasets
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-datasets"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-datasets" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Agent Datasets (for agentic projects)
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/agent-datasets"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/agent-datasets" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Test Runs
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/test-runs"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/test-runs" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 ```
 
 **Follow-up calls (based on initial results):**
 ```bash
 # Get test case counts for each dataset
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-datasets/id/{dataset_id}/test-cases"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-datasets/id/{dataset_id}/test-cases" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Get version history for active templates
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-templates/id/{template_id}/versions"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/prompt-templates/id/{template_id}/versions" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 
 # Get detailed test run results if needed
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/test-runs/id/{test_run_id}"
+curl -s "$FREEPLAY_BASE_URL/api/v2/projects/{project_id}/test-runs/id/{test_run_id}" \
+     -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
 ```
 
 ### Step 3: Analyze Each Dimension
@@ -484,9 +484,9 @@ Based on this assessment, you should:
 ### Pattern: Weak Dataset
 **Symptom**: Only one dataset with limited test cases
 **Recommendation**:
-1. Ask the user to confirm the semantic meaning of the dataset (i.e. is it a "Golden Dataset" of representative input/output pairs, or "Failure Cases" including known failure to improve, or "Red Team" test cases that help detect abuse)
+1. Ask the user to confirm the semantic meaning of the dataset (i.e. is it a "Golden Dataset" of representative input/output pairs, or "Failure Cases" including known failures to improve, or "Red Team" test cases that help detect abuse)
 2. Analyze the existing test cases to understand what they cover
-3. Analyze a sample of 100-200 recent production logs for the same component (prompt template or agent) and assess whether the dataset is representative of the production sample
+3. Analyze a sample of 100-200 recent production logs for the same component (prompt template or agent) and assess whether the dataset is representative of the prod sample
 4. Where production examples are markedly different or distinct, suggest examples to the user to add to their dataset. Always get confirmation from the user before changing the test cases in a dataset.
 
 ### Pattern: No Insights
@@ -507,17 +507,12 @@ Based on this assessment, you should:
 
 ## Security: Protecting API Keys in curl Commands
 
-All curl commands in this skill MUST use process substitution to pass the
-Authorization header, preventing the API key from appearing in process listings:
+All curl commands use process substitution to pass the Authorization header,
+preventing the API key from appearing in process listings:
 
 ```bash
-# CORRECT - key is not visible in `ps` output
 curl -s "$FREEPLAY_BASE_URL/api/v2/..." \
      -H @<(echo "Authorization: Bearer $FREEPLAY_API_KEY")
-
-# WRONG - key is exposed as a command-line argument
-curl -H "Authorization: Bearer $FREEPLAY_API_KEY" \
-     "$FREEPLAY_BASE_URL/api/v2/..."
 ```
 
 Never log, echo, or display the value of FREEPLAY_API_KEY in output.
