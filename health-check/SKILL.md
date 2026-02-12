@@ -484,7 +484,7 @@ Based on this assessment, you should:
 ### Pattern: Weak Dataset
 **Symptom**: Only one dataset with limited test cases
 **Recommendation**:
-1. Ask the user to confirm the semantic meaning of the dataset (i.e. is it a "Golden Dataset" of representative input/output pairs, or "Failure Cases" including known failure to improve, or "Red Team" test cases that help detect abuse)
+1. Ask the user to confirm the semantic meaning of the dataset (i.e. is it a "Golden Dataset" of representative input/output pairs, or "Failure Cases" including known failures to improve, or "Red Team" test cases that help detect abuse)
 2. Analyze the existing test cases to understand what they cover
 3. Analyze a sample of 100-200 recent production logs for the same component (prompt template or agent) and assess whether the dataset is representative of the production sample
 4. Where production examples are markedly different or distinct, suggest examples to the user to add to their dataset. Always get confirmation from the user before changing the test cases in a dataset.
