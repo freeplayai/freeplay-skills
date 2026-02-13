@@ -1,0 +1,80 @@
+# Freeplay Onboarding Skills - Resource Index
+
+> Freeplay is the ops platform for enterprise AI engineering teams providing integrated workflow for LLM observability, prompt management, evaluations, testing, and human review.
+
+## Freeplay Documentation (External)
+
+Full documentation index: https://docs.freeplay.ai/llms.txt
+
+### Getting Started
+- Quick Start Overview: https://docs.freeplay.ai/docs/quick-start-overview
+- Integrate with Your Application: https://docs.freeplay.ai/docs/integrate-with-your-application
+- Project Setup: https://docs.freeplay.ai/docs/project-setup
+
+### Observability (Sessions, Traces, Completions)
+- Sessions, Traces, and Completions: https://docs.freeplay.ai/docs/sessions-traces-and-completions
+- Common Integration Patterns: https://docs.freeplay.ai/docs/common-integration-patterns
+- Building Agents: https://docs.freeplay.ai/docs/building-agents
+- Multi-Turn Chat: https://docs.freeplay.ai/docs/multi-turn-chat
+- Tool Calls: https://docs.freeplay.ai/docs/tool-calls
+- Streaming Responses: https://docs.freeplay.ai/docs/streaming-responses
+
+### Prompt Management
+- Prompt Management: https://docs.freeplay.ai/docs/prompt-management
+- Advanced Templating (Mustache): https://docs.freeplay.ai/docs/advanced-templating
+- Structured Outputs: https://docs.freeplay.ai/docs/structured-outputs
+- Structured Outputs (OpenAI): https://docs.freeplay.ai/docs/structured-outputs-openai
+- Environments: https://docs.freeplay.ai/docs/environments
+- Prompt Bundling: https://docs.freeplay.ai/docs/prompt-bundling
+
+### SDKs & Integrations
+- SDKs Overview: https://docs.freeplay.ai/docs/sdks-overview
+- Python SDK Setup: https://docs.freeplay.ai/reference/sdk-setup
+- SDK Organizing Principles: https://docs.freeplay.ai/reference/organizing-principles
+- Sessions (SDK): https://docs.freeplay.ai/reference/sessions
+- Traces (SDK): https://docs.freeplay.ai/reference/traces
+- Recording Completions (SDK): https://docs.freeplay.ai/reference/recording-completions
+- Customer Feedback (SDK): https://docs.freeplay.ai/reference/customer-feedback
+- Prompts (SDK): https://docs.freeplay.ai/reference/prompts
+- Data Models (SDK): https://docs.freeplay.ai/reference/data-models
+
+### Framework Integrations
+- LangGraph: https://docs.freeplay.ai/docs/langgraph
+- Vercel AI SDK: https://docs.freeplay.ai/docs/vercel-ai-sdk
+- Google ADK: https://docs.freeplay.ai/docs/google-adk
+- OpenTelemetry: https://docs.freeplay.ai/docs/opentelemetry
+
+### Code Recipes (Runnable Examples)
+- Single Prompt: https://docs.freeplay.ai/docs/single-prompt
+- Multi Prompt Chain: https://docs.freeplay.ai/docs/multi-prompt-chain
+- Record Agent Traces: https://docs.freeplay.ai/docs/record-agent-traces
+- Managing Multi-Turn Chat History: https://docs.freeplay.ai/docs/managing-multi-turn-chat-history
+- OpenAI Function Calls: https://docs.freeplay.ai/docs/openai-function-calls
+- Anthropic Tools: https://docs.freeplay.ai/docs/anthropic-tools
+
+### Evaluations & Testing
+- Evaluations Overview: https://docs.freeplay.ai/docs/evaluations-overview
+- Test Runs Overview: https://docs.freeplay.ai/docs/test-runs-overview
+- Datasets: https://docs.freeplay.ai/docs/datasets
+
+### Open Source SDKs
+- Python SDK (GitHub): https://github.com/freeplay-ai/freeplay-python-sdk
+- Node SDK (GitHub): https://github.com/freeplay-ai/freeplay-node-sdk
+
+## Internal Skill References
+
+### Shared Resources (Always Available)
+- Prompt Mapping Guide: _shared/prompt-mapping-guide.md
+
+### Codebase Analysis (freeplay-plan)
+- Framework Detection: freeplay-plan/_reference/framework-detection.md
+- Prompt Classification: freeplay-plan/_reference/prompt-classification-guide.md
+
+### Prompt Migration (prompt-migration)
+- Variable Conversion: prompt-migration/_reference/convert-to-mustache.md
+
+### Logging Integration (record-to-freeplay)
+- General Logging Guide: record-to-freeplay/_reference/general-logging-guide.md
+- Freeplay Patterns: record-to-freeplay/_reference/patterns/freeplay-patterns.md
+- LangGraph: record-to-freeplay/_reference/integrations/langgraph-complete.md
+- Vercel AI SDK: record-to-freeplay/_reference/integrations/vercel-integration.md
