@@ -1,0 +1,164 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Freeplay Migration Analysis",
+  "description": "Analysis of LLM usage for Freeplay migration. Add custom fields as needed.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["generated_at", "codebase_root", "summary", "prompts", "framework", "recommendations"],
+  "properties": {
+    "generated_at": {"type": "string", "format": "date-time"},
+    "codebase_root": {"type": "string"},
+
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "total_prompts_found": {"type": "integer"},
+        "direct_migration": {"type": "integer"},
+        "needs_review": {"type": "integer"},
+        "manual_migration": {"type": "integer"},
+        "frameworks_detected": {"type": "array", "items": {"type": "string"}},
+        "llm_providers": {"type": "array", "items": {"type": "string"}},
+        "has_conversation_history": {"type": "boolean"},
+        "has_streaming": {"type": "boolean"}
+      }
+    },
+
+    "prompts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id", "source", "migration"],
+        "properties": {
+          "id": {"type": "string", "description": "Unique identifier / proposed template name"},
+
+          "source": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "file": {"type": "string"},
+              "lines": {"type": "string"},
+              "type": {"enum": ["file", "inline_code", "dynamic", "other"]}
+            }
+          },
+
+          "content_preview": {"type": "string", "description": "First ~200 chars"},
+
+          "structure": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "format": {"enum": ["single_string", "messages_array", "other"]},
+              "roles": {"type": "array", "items": {"enum": ["system", "user", "assistant"]}},
+              "has_conversation_history": {"type": "boolean"}
+            }
+          },
+
+          "variables": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "detected": {"type": "array", "items": {"type": "string"}},
+              "syntax": {"enum": ["none", "fstring", "jinja2", "mustache", "template_literal", "mixed", "other"]},
+              "has_conditionals": {"type": "boolean"}
+            }
+          },
+
+          "model_config": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "provider": {"type": "string"},
+              "model": {"type": "string"},
+              "streaming": {"type": "boolean"}
+            }
+          },
+
+          "has_tools": {"type": "boolean", "description": "Whether this prompt uses function/tool calling"},
+
+          "session_handling": {
+            "enum": ["none", "creates_session", "uses_existing", "unclear"],
+            "description": "How this prompt relates to sessions"
+          },
+
+          "migration": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": ["complexity", "strategy"],
+            "properties": {
+              "complexity": {"enum": ["simple", "moderate", "complex"]},
+              "strategy": {"enum": ["direct", "needs_review", "manual"]},
+              "blockers": {"type": "array", "items": {"type": "string"}},
+              "notes": {"type": "string"}
+            }
+          },
+
+          "notes": {"type": "string"}
+        }
+      }
+    },
+
+    "framework": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "detected": {
+          "enum": ["langgraph", "langchain", "vanilla_openai", "vanilla_anthropic", "vercel_ai", "multiple", "other", "unknown"]
+        },
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence": {"type": "array", "items": {"type": "string"}},
+        "recommended_package": {
+          "enum": ["freeplay-langgraph", "@freeplayai/vercel", "freeplay", "custom"],
+          "description": "Which Freeplay package to use"
+        },
+        "existing_telemetry": {
+          "type": "string",
+          "description": "Brief description of existing logging/telemetry, if any"
+        }
+      }
+    },
+
+    "session_management": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "How sessions are handled across the system",
+      "properties": {
+        "detected": {"type": "boolean"},
+        "approach": {"type": "string", "description": "e.g., 'UUID per request', 'user_id based', 'langgraph checkpointer'"},
+        "session_id_source": {"type": "string", "description": "Where session IDs come from"}
+      }
+    },
+
+    "edge_cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "description": {"type": "string"},
+          "impact": {"enum": ["blocker", "warning", "info"]},
+          "recommendation": {"type": "string"}
+        }
+      }
+    },
+
+    "recommendations": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "prompt_migration": {
+          "type": "string",
+          "description": "Summary of prompt migration approach"
+        },
+        "logging_integration": {
+          "type": "string",
+          "description": "Summary of recommended logging integration approach"
+        },
+        "warnings": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+
+    "notes": {"type": "string", "description": "Overall notes that don't fit elsewhere"}
+  }
+}

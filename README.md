@@ -1,6 +1,6 @@
 # Freeplay Skills
 
-Skills for the [Freeplay Plugin](https://github.com/freeplayai/freeplay-plugin) that teach Claude Code and Cursor to analyze logs, iterate on prompts and agents, and run experiments in [Freeplay](https://freeplay.ai), the ops platform for AI engineering teams.
+Skills for the [Freeplay Plugin](https://github.com/freeplayai/freeplay-plugin) that teach Claude Code and Cursor to onboard to Freeplay, analyze logs, iterate on prompts and agents, and run experiments in [Freeplay](https://freeplay.ai), the ops platform for AI engineering teams.
 
 ## ⚠️ EXPERIMENTAL
 
@@ -57,6 +57,19 @@ Project ID can come from:
 - MCP `list_projects()` tool to discover available projects
 - `--project-id` CLI arg (for scripts)
 
+## Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `freeplay-onboarding` | Orchestrator — guides complete onboarding flow with checkpoints |
+| `freeplay-plan` | Analyzes a codebase to map LLM usage patterns and build a migration plan |
+| `prompt-migration` | Migrates prompts into Freeplay for version control and management |
+| `record-to-freeplay` | Integrates Freeplay logging, tracing, and observability |
+| `dataset-management` | Create and manage prompt and agent datasets |
+| `health-check` | Assess project health across the data flywheel |
+| `run-test` | Execute Freeplay test runs |
+| `test-run-analysis` | Analyze test run results and surface recommendations |
+
 ## Usage with Claude Code
 
 These skills are auto-invoked by Claude based on context when using the Freeplay plugin. They capture workflows and best practices for working with Freeplay's connected data flywheel: observability, prompt management, datasets, evaluations, and testing. Skills are included as a git submodule in the main plugin repository.
@@ -67,14 +80,16 @@ These skills can also be used with [Cursor](https://cursor.com) through its [Age
 
 Skills are separate from [Cursor Rules](https://cursor.com/docs/context/rules) (stored in `.cursor/rules/`) which provide persistent behavioral guidelines. Skills and rules work together — rules define how the AI should behave, while skills provide specialized workflows that are auto-invoked when relevant.
 
-## Shared Scripts
+## Shared Resources
 
-The `scripts/` directory contains shared utilities used across multiple skills:
+The `scripts/` directory contains shared Python utilities used across multiple skills:
 
-- **`api.py`** - A small subset of API calls that can be used. 
+- **`api.py`** - A small subset of API calls that can be used.
 - **`secrets.py`** - Secure handling of API keys with `SecretString` wrapper
 
 Skills should symlink to these shared modules rather than duplicating code. See [`scripts/README.md`](scripts/README.md) for details.
+
+The `_shared/` directory contains reference materials used by the onboarding skills (API reference, framework detection guides, environment config).
 
 ## Adding a New Skill
 

@@ -1,0 +1,270 @@
+{
+  "generated_at": "2024-01-15T10:30:00Z",
+  "codebase_root": "/Users/example/projects/customer-support-bot",
+  "framework_detected": {
+    "primary": "langgraph",
+    "confidence": "high",
+    "evidence": [
+      "from langgraph.graph import StateGraph found in agents/main.py:3",
+      "from langgraph.prebuilt import ToolNode found in agents/tools.py:5",
+      "StateGraph class usage found in 3 files"
+    ],
+    "version": "0.2.16"
+  },
+  "llm_providers": [
+    {
+      "provider": "openai",
+      "confidence": "high",
+      "evidence": ["from langchain_openai import ChatOpenAI in agents/main.py:4"],
+      "models_detected": ["gpt-4", "gpt-3.5-turbo"],
+      "usage_locations": [
+        "agents/main.py:45",
+        "agents/summarizer.py:12"
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "confidence": "medium",
+      "evidence": ["from anthropic import Anthropic in utils/fallback.py:2"],
+      "models_detected": ["claude-3-sonnet-20240229"],
+      "usage_locations": [
+        "utils/fallback.py:23"
+      ]
+    }
+  ],
+  "existing_telemetry": {
+    "detected": false,
+    "frameworks": [],
+    "notes": "No existing observability detected (no LangSmith, OpenTelemetry, or other tracing)"
+  },
+  "prompts": [
+    {
+      "id": "prompt_1",
+      "name": "customer_support_system",
+      "type": "system_message",
+      "complexity": "simple",
+      "location": {
+        "file": "prompts/system.txt",
+        "line_start": 1,
+        "line_end": 5
+      },
+      "content_preview": "You are a helpful customer support assistant...",
+      "variables_detected": [],
+      "message_structure": [
+        {
+          "role": "system",
+          "content": "static"
+        }
+      ],
+      "model_config": {
+        "model": "gpt-4",
+        "temperature": 0.7,
+        "max_tokens": 1000
+      },
+      "migration_notes": "Simple static system prompt, direct migration"
+    },
+    {
+      "id": "prompt_2",
+      "name": "ticket_categorization",
+      "type": "prompt_template",
+      "complexity": "moderate",
+      "location": {
+        "file": "agents/categorizer.py",
+        "line_start": 34,
+        "line_end": 48
+      },
+      "content_preview": "Categorize the following support ticket:\\n\\nTicket: {ticket_text}...",
+      "variables_detected": [
+        {
+          "name": "ticket_text",
+          "usage_pattern": "{ticket_text}",
+          "type": "f-string",
+          "example_value": "I can't log into my account"
+        },
+        {
+          "name": "categories",
+          "usage_pattern": "{categories}",
+          "type": "f-string",
+          "example_value": "['billing', 'technical', 'general']"
+        }
+      ],
+      "message_structure": [
+        {
+          "role": "system",
+          "content": "static"
+        },
+        {
+          "role": "user",
+          "content": "template with variables: {ticket_text}, {categories}"
+        }
+      ],
+      "model_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.3,
+        "max_tokens": 100
+      },
+      "migration_notes": "Uses f-strings for variable injection, convert to Mustache: {{ticket_text}}, {{categories}}"
+    },
+    {
+      "id": "prompt_3",
+      "name": "response_generator",
+      "type": "chat_template",
+      "complexity": "complex",
+      "location": {
+        "file": "agents/responder.py",
+        "line_start": 67,
+        "line_end": 95
+      },
+      "content_preview": "Generate a helpful response based on:\\n\\nContext: {context}\\nPrevious messages: {history}...",
+      "variables_detected": [
+        {
+          "name": "context",
+          "usage_pattern": "{context}",
+          "type": "f-string",
+          "example_value": "User account was locked due to multiple failed login attempts"
+        },
+        {
+          "name": "history",
+          "usage_pattern": "{history}",
+          "type": "jinja2_loop",
+          "example_value": [
+            {"role": "user", "content": "I can't login"},
+            {"role": "assistant", "content": "Let me help you with that"}
+          ]
+        },
+        {
+          "name": "user_name",
+          "usage_pattern": "{user_name}",
+          "type": "f-string",
+          "example_value": "Jane Smith"
+        }
+      ],
+      "message_structure": [
+        {
+          "role": "system",
+          "content": "template with variables: {user_name}"
+        },
+        {
+          "role": "user",
+          "content": "dynamic from {history}"
+        },
+        {
+          "role": "assistant",
+          "content": "dynamic from {history}"
+        },
+        {
+          "role": "user",
+          "content": "template with variables: {context}"
+        }
+      ],
+      "model_config": {
+        "model": "gpt-4",
+        "temperature": 0.8,
+        "max_tokens": 500,
+        "tools": [
+          {
+            "name": "search_knowledge_base",
+            "description": "Search internal knowledge base for answers"
+          }
+        ]
+      },
+      "migration_notes": "Complex template with conversation history. Convert Jinja2 loops to Mustache {{#history}}...{{/history}}. Tool definitions should be migrated to Freeplay tool schema."
+    }
+  ],
+  "tool_usage": {
+    "detected": true,
+    "tools": [
+      {
+        "name": "search_knowledge_base",
+        "location": "agents/tools.py:12-25",
+        "description": "Search internal knowledge base for answers",
+        "parameters": ["query"],
+        "integration_type": "langchain_tool"
+      },
+      {
+        "name": "create_ticket",
+        "location": "agents/tools.py:28-42",
+        "description": "Create a new support ticket",
+        "parameters": ["title", "description", "priority"],
+        "integration_type": "langchain_tool"
+      }
+    ]
+  },
+  "session_patterns": {
+    "detected": true,
+    "pattern": "conversation_based",
+    "evidence": [
+      "conversation_id tracked in agents/main.py:78",
+      "message history maintained across invocations"
+    ],
+    "recommendation": "Map conversation_id to Freeplay session_id"
+  },
+  "agent_patterns": {
+    "detected": true,
+    "pattern": "multi_step_workflow",
+    "agents": [
+      {
+        "name": "support_agent",
+        "type": "react",
+        "location": "agents/main.py:45-120",
+        "tools": ["search_knowledge_base", "create_ticket"],
+        "steps": ["categorize", "search", "respond"]
+      }
+    ],
+    "recommendation": "Each agent execution = 1 Freeplay trace, each tool call = 1 completion"
+  },
+  "evaluation_patterns": {
+    "detected": false,
+    "notes": "No evaluation code found. Recommend adding post-migration."
+  },
+  "guardrails": {
+    "detected": false,
+    "notes": "No guardrails detected (no NeMo, Guardrails AI, etc.)"
+  },
+  "migration_plan": {
+    "priority_prompts": [
+      {
+        "prompt_id": "prompt_1",
+        "name": "customer_support_system",
+        "reason": "Core system prompt used in all interactions",
+        "estimated_effort": "low"
+      },
+      {
+        "prompt_id": "prompt_2",
+        "name": "ticket_categorization",
+        "reason": "Critical for routing tickets correctly",
+        "estimated_effort": "low"
+      },
+      {
+        "prompt_id": "prompt_3",
+        "name": "response_generator",
+        "reason": "Main response generation logic",
+        "estimated_effort": "medium"
+      }
+    ],
+    "recommended_order": [
+      "customer_support_system",
+      "ticket_categorization",
+      "response_generator"
+    ],
+    "integration_approach": {
+      "logging": "Use freeplay-langgraph package for auto-instrumentation",
+      "prompt_management": "Migrate all 3 prompts to Freeplay templates",
+      "session_mapping": "Map conversation_id -> session_id",
+      "trace_mapping": "One trace per agent execution",
+      "deployment_strategy": "Deploy to staging first, test with 10% traffic, then production"
+    },
+    "estimated_timeline": "2-3 hours for full migration and testing"
+  },
+  "warnings": [
+    "prompt_3 uses Jinja2 loops which need conversion to Mustache syntax",
+    "No existing tests found - recommend adding integration tests post-migration"
+  ],
+  "next_steps": [
+    "Review this analysis for accuracy",
+    "Run /prompt-migration to create templates in Freeplay",
+    "Run /record-to-freeplay to add logging integration",
+    "Test with sample conversations in staging environment",
+    "Deploy to production with monitoring"
+  ]
+}
